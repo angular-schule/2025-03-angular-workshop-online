@@ -11,5 +11,8 @@
     </div>
     <p>{{ b.description }}</p>
     <p>Preis: {{ b.price }}</p>
+
+    <button type="button" class="btn btn-red" (click)="doRateDown()"> – </button>
+    <button type="button" class="btn btn-green" (click)="doRateUp()"> + </button>
   </div>
 </div>
