@@ -10,7 +10,7 @@
       </h2>
     </div>
     <p>{{ b.description }}</p>
-    <p>Preis: {{ b.price }}</p>
+    <p>Preis: {{ b.price | currency:'EUR' }}</p>
 
     <button type="button" class="btn btn-red" (click)="doRateDown()"> – </button>
     <button type="button" class="btn btn-green" (click)="doRateUp()"> + </button>
