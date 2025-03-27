@@ -1,13 +1,23 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DashboardComponent } from "./books/dashboard/dashboard.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, DashboardComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'Book Rating';
 }
+
+
+/*
+TODO
+- Redirect / => /books
+- Fehlerseite
+- Links
+  - BookComponent => Detailseite
+  - Detailseite => Dashboard
+- Detailseite
+*/
