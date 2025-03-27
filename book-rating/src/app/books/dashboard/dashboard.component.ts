@@ -10,6 +10,7 @@ import { BookComponent } from "../book/book.component";
 })
 export class DashboardComponent {
   readonly books = signal<Book[]>([]);
+  readonly counter = signal(0);
 
   constructor() {
     this.books.set([
