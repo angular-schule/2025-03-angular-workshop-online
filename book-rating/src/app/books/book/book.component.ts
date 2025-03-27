@@ -2,10 +2,11 @@ import { Component, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
 import { Book } from '../shared/book';
+import { RatingComponent } from '../rating/rating.component';
 
 @Component({
   selector: 'app-book',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RatingComponent],
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss'
 })
