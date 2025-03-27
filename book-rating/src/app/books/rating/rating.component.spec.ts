@@ -13,6 +13,7 @@ describe('RatingComponent', () => {
     .compileComponents();
 
     fixture = TestBed.createComponent(RatingComponent);
+    fixture.componentRef.setInput('value', 1);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

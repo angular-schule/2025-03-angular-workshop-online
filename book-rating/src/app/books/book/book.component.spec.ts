@@ -13,6 +13,15 @@ describe('BookComponent', () => {
     .compileComponents();
 
     fixture = TestBed.createComponent(BookComponent);
+
+    fixture.componentRef.setInput('book', {
+      isbn: '',
+      title: '',
+      description: '',
+      rating: 5,
+      price: 5
+    });
+
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
