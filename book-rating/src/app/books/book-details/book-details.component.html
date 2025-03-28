@@ -1,4 +1,7 @@
-<p>book-details works!</p>
+@if (book(); as b) {
+  <h3>{{ b.title }}</h3>
+  <p>{{ b.description }}</p>
+}
 
 <hr>
 
