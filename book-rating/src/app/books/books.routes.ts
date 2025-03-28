@@ -8,7 +8,7 @@ import { BooksEntryComponent } from "./books-entry/books-entry.component";
 export const booksRoutes: Routes = [
   {
     // BooksEntry wird im Haupt-Outlet angezeigt
-    path: 'books',
+    path: '',
     component: BooksEntryComponent,
     children: [
       // diese Routen werden im Outlet der BooksEntry-Komponente angezeigt
