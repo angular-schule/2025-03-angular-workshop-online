@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DashboardComponent } from './dashboard.component';
 import { Book } from '../shared/book';
 import { BookRatingService } from '../shared/book-rating.service';
+import { of } from 'rxjs';
+import { BookStoreService } from '../shared/book-store.service';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -15,12 +17,17 @@ describe('DashboardComponent', () => {
       rateDown: (b: Book) => b,
     };
 
+    const storeMock: Partial<BookStoreService> = {
+      getAll: () => of([])
+    };
+
     await TestBed.configureTestingModule({
       imports: [DashboardComponent],
       providers: [
         // Abhängigkeit ersetzen:
         // Wenn BRS angefordert wird, wird stattdessen der ratingMock ausgeliefert
-        { provide: BookRatingService, useValue: ratingMock }
+        { provide: BookRatingService, useValue: ratingMock },
+        { provide: BookStoreService, useValue: storeMock }
       ]
     })
     .compileComponents();
