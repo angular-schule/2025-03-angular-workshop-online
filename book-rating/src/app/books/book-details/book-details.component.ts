@@ -28,7 +28,5 @@ export class BookDetailsComponent {
         this.book.set(book);
       });
     });
-
-
   }
 }

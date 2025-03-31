@@ -6,6 +6,15 @@
   <div class="form-group">
     <label for="isbnInput">ISBN</label>
     <input type="text" id="isbnInput" class="form-control" [formControl]="c.isbn" />
+
+    @if (isInvalid(c.isbn)) {<div class="feedback-error">Die ISBN ist ungültig.</div>}
+    @if (hasError(c.isbn, 'required')) {<div class="feedback-error">Die ISBN muss angegeben werden.</div>}
+    @if (hasError(c.isbn, 'minlength')) {<div class="feedback-error">Die ISBN ist zu kurz.</div>}
+    @if (hasError(c.isbn, 'maxlength')) {<div class="feedback-error">Die ISBN ist zu lang.</div>}
+    @if (hasError(c.isbn, 'pattern')) {<div class="feedback-error">Die ISBN darf nur aus Zahlen bestehen.</div>}
+
+    <pre>{{ c.isbn.errors | json }}</pre>
+
   </div>
 
   <div class="form-group">
