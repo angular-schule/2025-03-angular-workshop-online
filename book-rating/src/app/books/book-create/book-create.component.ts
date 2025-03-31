@@ -1,6 +1,24 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+
+
+export const isbnPrefix: ValidatorFn = function (control) {
+  if (!control.value.startsWith('978') && control.value.length >= 3) {
+    return { isbnprefix: true };
+  } else {
+    return null;
+  }
+}
+
+
+export const isbnValidator = Validators.compose([
+  Validators.required,
+  Validators.minLength(10),
+  Validators.maxLength(13),
+  Validators.pattern(/^[0-9]*$/),
+  isbnPrefix
+])!;
 
 @Component({
   selector: 'app-book-create',
@@ -12,12 +30,7 @@ export class BookCreateComponent {
   bookForm = new FormGroup({
     isbn: new FormControl('', {
       nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(13),
-        Validators.pattern(/^[0-9]*$/)
-      ]
+      validators: [isbnValidator]
     }),
     title: new FormControl('', {
       nonNullable: true,
