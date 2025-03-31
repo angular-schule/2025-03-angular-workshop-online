@@ -15,13 +15,24 @@ export const isbnPrefix: ValidatorFn = function (control) {
   }
 }
 
+export function prefixValidator(prefix: string): ValidatorFn {
+  return function (control) {
+    if (!control.value.startsWith(prefix) && control.value.length >= 3) {
+      return { isbnprefix: true };
+    } else {
+      return null;
+    }
+  }
+}
+
 
 export const isbnValidator = Validators.compose([
   Validators.required,
   Validators.minLength(10),
   Validators.maxLength(13),
   Validators.pattern(/^[0-9]*$/),
-  isbnPrefix
+  isbnPrefix,
+  // prefixValidator('978')
 ])!;
 
 @Component({
