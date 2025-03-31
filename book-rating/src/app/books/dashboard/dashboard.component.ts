@@ -52,4 +52,16 @@ export class DashboardComponent {
       });
     });
   }
+
+  doDeleteBook(book: Book) {
+    if (!confirm('Buch löschen?')) {
+      return;
+    }
+
+    this.#bs.delete(book.isbn).subscribe(() => {
+      // this.#bs.getAll().subscribe(books => this.books.set(books));
+      // ODER lokal filtern
+      this.books.update(currentList => currentList.filter(b => b.isbn !== book.isbn));
+    });
+  }
 }
