@@ -1,7 +1,10 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { Book } from '../shared/book';
+import { BookStoreService } from '../shared/book-store.service';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 export const isbnPrefix: ValidatorFn = function (control) {
@@ -28,6 +31,9 @@ export const isbnValidator = Validators.compose([
   styleUrl: './book-create.component.scss'
 })
 export class BookCreateComponent {
+  #bs = inject(BookStoreService);
+  #router = inject(Router);
+
   bookForm = new FormGroup({
     isbn: new FormControl('', {
       nonNullable: true,
@@ -75,7 +81,19 @@ export class BookCreateComponent {
       return;
     }
 
+    const newBook: Book = this.bookForm.getRawValue();
 
+    this.#bs.create(newBook).subscribe({
+      next: receivedBook => {
+        this.#router.navigate(['/books', receivedBook.isbn]);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err);
+        if (err.status === 409) {
+          this.bookForm.controls.isbn.setErrors({ isbnexists: true })
+        }
+      }
+    });
   }
 }
 

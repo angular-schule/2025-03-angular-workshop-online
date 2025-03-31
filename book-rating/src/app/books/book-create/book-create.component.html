@@ -13,6 +13,7 @@
     @if (hasError(c.isbn, 'maxlength')) {<div class="feedback-error">Die ISBN ist zu lang.</div>}
     @if (hasError(c.isbn, 'pattern')) {<div class="feedback-error">Die ISBN darf nur aus Zahlen bestehen.</div>}
     @if (hasError(c.isbn, 'isbnprefix')) {<div class="feedback-error">Die ISBN muss mit "978" beginnen.</div>}
+    @if (hasError(c.isbn, 'isbnexists')) {<div class="feedback-error">Die ISBN existiert bereits.</div>}
 
     <pre>{{ c.isbn.errors | json }}</pre>
 
