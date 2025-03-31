@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { Book } from '../shared/book';
 
 
 export const isbnPrefix: ValidatorFn = function (control) {
@@ -64,9 +65,17 @@ export class BookCreateComponent {
     return control.invalid && control.touched;
   }
 
-  // AUFGABE
   hasError(control: AbstractControl, errorCode: string) {
     return control.hasError(errorCode) && control.touched;
+  }
+
+  submitForm() {
+    if (this.bookForm.invalid) {
+      this.bookForm.markAllAsTouched();
+      return;
+    }
+
+
   }
 }
 

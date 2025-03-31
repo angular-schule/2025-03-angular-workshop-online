@@ -2,7 +2,7 @@
 
 <h3>Buch erstellen</h3>
 
-<form [formGroup]="bookForm">
+<form [formGroup]="bookForm" (ngSubmit)="submitForm()">
   <div class="form-group">
     <label for="isbnInput">ISBN</label>
     <input type="text" id="isbnInput" class="form-control" [formControl]="c.isbn" />
