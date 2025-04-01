@@ -12,6 +12,13 @@
     <p>{{ b.description }}</p>
     <p>Preis: {{ b.price | currency:'EUR' }}</p>
 
+    <div>
+      Autoren:
+      <ul>
+        @for (author of b.authors; track $index) {<li>{{ author }}</li>}
+      </ul>
+    </div>
+
     <button type="button" class="btn btn-red" (click)="doRateDown()" [disabled]="b.rating <= minRating()"> – </button>
     <button type="button" class="btn btn-green" (click)="doRateUp()" [disabled]="b.rating >= maxRating()"> + </button>
     <button type="button" class="btn btn-yellow" (click)="doDelete()">Löschen</button>

@@ -92,7 +92,10 @@ export class BookCreateComponent {
       return;
     }
 
-    const newBook: Book = this.bookForm.getRawValue();
+    const newBook: Book = {
+      ...this.bookForm.getRawValue(),
+      authors: [] // TODO
+    };
 
     this.#bs.create(newBook).subscribe({
       next: receivedBook => {
