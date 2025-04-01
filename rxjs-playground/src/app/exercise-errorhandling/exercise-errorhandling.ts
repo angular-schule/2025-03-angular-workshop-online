@@ -20,12 +20,22 @@ export class ExerciseErrorhandling {
 
   start() {
     this.#ds.getData().pipe(
+      catchError(err => {
+        // Fehler verarbeiten
+        // …
 
-      /******************************/
+        // Fehler ignorieren
+        // return of();
+        // return EMPTY;
 
-      
-      /******************************/
+        // Fehler weiterwerfen
+        // return throwError(() => 'Oh oh ein Fehler!')
+        // throw 'Ein Fehler, nein!';
+        throw err;
 
+        // Fehler ersetzen
+        // return of('Nichts', 'passiert!');
+      })
     ).subscribe({
       next: e => this.logStream$.next(e),
       error: err => this.logStream$.next('❌ ERROR: ' + err),

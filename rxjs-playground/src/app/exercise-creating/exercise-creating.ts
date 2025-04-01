@@ -50,13 +50,22 @@ export class ExerciseCreating {
       sub.next(20);
 
       setTimeout(() => sub.next(200), 2000)
-      setTimeout(() => sub.next(300), 3000)
-      setTimeout(() => sub.complete(), 4000)
+      const timer = setTimeout(() => {
+        sub.next(500);
+        console.log('LOG 500');
+      }, 5000)
+      setTimeout(() => sub.complete(), 10000)
+
+      // Teardown Logic: wird ausgeführt, wenn von außen unsubscribt wird
+      return () => {
+        console.log('TEARDOWN');
+        clearTimeout(timer);
+      };
     }
 
     // Observer: empfängt die Daten, die vom Producer generiert werden
     const obs = {
-      next: (e: number) => this.log(e),
+      next: (e: number) => this.log('NEXT: ' + e),
       error: (err: string) => this.log('ERROR: ' + err),
       complete: () => this.log('FERTIG')
     };
@@ -68,10 +77,18 @@ export class ExerciseCreating {
     const myObs2$ = new Observable<string>(sub => {
       sub.next('Hallo Welt');
       sub.complete();
+
+      // Teardown Logic
+      return () => {};
     })
 
     // Subscription: Vertrag zwischen Observer und Observable
-    // myObs$.subscribe(obs);
+    // const sub = myObs$.subscribe(obs);
+
+    /*setTimeout(() => {
+      sub.unsubscribe();
+      console.log('UNSUBSCRIBE');
+    }, 2000)*/
 
 
     /******************************/

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Subject, ReplaySubject, Observable, map, mergeAll, mergeMap, concatMap, switchMap, exhaustMap } from 'rxjs';
+import { Subject, ReplaySubject, Observable, map, mergeAll, mergeMap, concatMap, switchMap, exhaustMap, OperatorFunction } from 'rxjs';
 
 import { HistoryWindow } from '../shared/history-window/history-window';
 import { EchoService } from './echo.service';
@@ -30,7 +30,23 @@ export class ExerciseHigherorder {
 
     /**************!!**************/
 
+    // EXKURS: eigener Log-Operator
+    const log = function<T>() {
+      return (source: Observable<T>) => {
+        return new Observable<T>(sub => {
+          // sub.next('X' as T);
+          source.subscribe(e => {
+            console.log(e);
+            sub.next(e)
+          });
+        });
+      }
+    }
+
+
     this.result$ = this.source$.pipe(
+      log(),
+      exhaustMap(tier => this.#es.echo(tier)),
     );
 
     /**************!!**************/
