@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 // import { booksRoutes } from './books/books.routes';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { BooksEntryComponent } from './books/books-entry/books-entry.component';
 
 export const routes: Routes = [
   // bei Weiterleitung von leerem Pfad (fast) immer pathMatch:full nötig
