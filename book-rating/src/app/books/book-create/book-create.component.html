@@ -42,6 +42,17 @@
     <input type="number" id="priceInput" class="form-control" [formControl]="c.price" />
   </div>
 
+  <fieldset>
+    <label>Autoren</label>
+    <button type="button" class="btn btn-primary" (click)="addAuthor()">+ Autor</button>
+    @for (a of c.authors.controls; track $index) {
+      <div class="form-group">
+        <input type="text" class="form-control" [formControl]="a" />
+        <button type="button" class="btn btn-primary" (click)="removeAuthorAt($index)">🗑️</button>
+    </div>
+    }
+  </fieldset>
+
   <button type="submit" class="btn btn-green">Abschicken</button>
 </form>
 

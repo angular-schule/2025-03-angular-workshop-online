@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { Book } from '../shared/book';
 import { BookStoreService } from '../shared/book-store.service';
 import { Router } from '@angular/router';
@@ -75,8 +75,23 @@ export class BookCreateComponent {
         Validators.required,
         Validators.min(0)
       ]
-    })
+    }),
+    authors: new FormArray([
+      new FormControl('', { nonNullable: true }),
+      new FormControl('', { nonNullable: true }),
+      new FormControl('', { nonNullable: true }),
+    ])
   });
+
+  addAuthor() {
+    this.bookForm.controls.authors.push(
+      new FormControl('', { nonNullable: true })
+    );
+  }
+
+  removeAuthorAt(index: number) {
+    this.bookForm.controls.authors.removeAt(index);
+  }
 
   isInvalid(control: AbstractControl) {
     return control.invalid && control.touched;
@@ -94,7 +109,6 @@ export class BookCreateComponent {
 
     const newBook: Book = {
       ...this.bookForm.getRawValue(),
-      authors: [] // TODO
     };
 
     this.#bs.create(newBook).subscribe({
