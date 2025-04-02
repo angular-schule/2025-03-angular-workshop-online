@@ -1,7 +1,7 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Book } from './book';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,22 @@ export class BookStoreService {
   #http = inject(HttpClient);
   #apiUrl = 'https://api.angular.schule';
 
+  #books$?: Observable<Book[]>;
+
   getAll(): Observable<Book[]> {
     return this.#http.get<Book[]>(this.#apiUrl + '/books');
+  }
+
+  getAllCached(): Observable<Book[]> {
+    if (!this.#books$) {
+      this.#books$ = this.getAll().pipe(shareReplay(1));
+    }
+
+    return this.#books$;
+  }
+
+  invalidateCache() {
+    this.#books$ = undefined;
   }
 
   /*getAllResource() {

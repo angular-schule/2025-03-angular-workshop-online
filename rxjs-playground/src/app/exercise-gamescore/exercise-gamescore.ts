@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { Subject, ReplaySubject, scan, reduce } from 'rxjs';
+import { Subject, ReplaySubject, scan, reduce, of } from 'rxjs';
 
 import { HistoryWindow } from '../shared/history-window/history-window';
 
@@ -36,6 +36,30 @@ export class ExerciseGamescore {
     });
 
 
+
+    /******************************/
+
+    of(
+      'SETCITYLEIPZIG',
+      'SETCITYHAM',
+      'SETFRANG',
+      'SETCITYKIEL',
+      'SETNAMEF',
+      'SETFRVUE',
+      'HGJKHIUOZUIHLKJUUIGZH'
+    ).pipe(
+      scan((acc, msg) => {
+        switch (msg) {
+          case 'SETCITYLEIPZIG': return { ...acc, city: 'Leipzig' };
+          case 'SETCITYHAM': return { ...acc, city: 'Hamburg' };
+          case 'SETCITYKIEL': return { ...acc, city: 'Kiel' };
+          case 'SETCITYFRA': return { ...acc, city: 'Frankfurt' };
+          case 'SETNAMEF': return { ...acc, name: 'Ferdinand', city: 'Leipzig' };
+          case 'SETFRANG': return { ...acc, framework: 'Angular' };
+          default: return acc;
+        }
+      }, {})
+    ).subscribe(e => console.log(e))
 
     /******************************/
 

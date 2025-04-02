@@ -3,6 +3,7 @@ import { Book } from '../shared/book';
 import { BookComponent } from "../book/book.component";
 import { BookRatingService } from '../shared/book-rating.service';
 import { BookStoreService } from '../shared/book-store.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,7 @@ export class DashboardComponent {
 
   #rs = inject(BookRatingService);
   #bs = inject(BookStoreService);
+  readonly booksX = toSignal(this.#bs.getAll(), { initialValue: [] });
 
   constructor() {
     this.#bs.getAll().subscribe(books => {
