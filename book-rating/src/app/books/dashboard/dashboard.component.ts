@@ -4,6 +4,10 @@ import { BookComponent } from "../book/book.component";
 import { BookRatingService } from '../shared/book-rating.service';
 import { BookStoreService } from '../shared/book-store.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
+import { BookActions } from '../store/book.actions';
+import { map } from 'rxjs';
+import { selectBooks } from '../store/book.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,17 +16,22 @@ import { toSignal } from '@angular/core/rxjs-interop';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
-  readonly books = signal<Book[]>([]);
+  #store = inject(Store);
+  // readonly books = signal<Book[]>([]);
+  readonly books = this.#store.selectSignal(selectBooks);
   readonly counter = signal(0);
 
   #rs = inject(BookRatingService);
   #bs = inject(BookStoreService);
+
   readonly booksX = toSignal(this.#bs.getAll(), { initialValue: [] });
 
   constructor() {
-    this.#bs.getAll().subscribe(books => {
+    /*this.#bs.getAll().subscribe(books => {
       this.books.set(books);
-    });
+    });*/
+
+    this.#store.dispatch(BookActions.loadBooks());
   }
 
   doRateUp(book: Book) {
@@ -36,7 +45,7 @@ export class DashboardComponent {
   }
 
   #updateList(ratedBook: Book) {
-    this.books.update(currentList => {
+    // this.books.update(currentList => {
       /*const index = findIndex(ratedBook, this.books());
       const part1 = this.books().slice(0, index);
       const part2 = this.books().slice(index + 1);
@@ -45,14 +54,14 @@ export class DashboardComponent {
       // [1,2,3,4,5].map(e => e * 10) // [10, 20, 30, 40, 50]
       // [1,2,3,4,5,6,7,8,9].filter(e => e > 5) // [6, 7, 8, 9]
 
-      return currentList.map(b => {
+      /*return currentList.map(b => {
         if (b.isbn === ratedBook.isbn) {
           return ratedBook;
         } else {
           return b;
         }
       });
-    });
+    });*/
   }
 
   doDeleteBook(book: Book) {
@@ -63,7 +72,7 @@ export class DashboardComponent {
     this.#bs.delete(book.isbn).subscribe(() => {
       // this.#bs.getAll().subscribe(books => this.books.set(books));
       // ODER lokal filtern
-      this.books.update(currentList => currentList.filter(b => b.isbn !== book.isbn));
+      // this.books.update(currentList => currentList.filter(b => b.isbn !== book.isbn));
     });
   }
 }
