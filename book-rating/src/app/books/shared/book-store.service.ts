@@ -1,7 +1,7 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Book } from './book';
-import { Observable, shareReplay } from 'rxjs';
+import { Observable, of, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +42,9 @@ export class BookStoreService {
   }
 
   search(term: string) {
+    /*if (term.length === 0) {
+      return of([]);
+    }*/
     return this.#http.get<Book[]>(this.#apiUrl + '/books/search/' + term);
     // return this.#http.get<Book[]>(`${this.#apiUrl}/books/search/${term}`);
   }
