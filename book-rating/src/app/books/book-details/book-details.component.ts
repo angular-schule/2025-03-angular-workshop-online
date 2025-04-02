@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, linkedSignal, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Book } from '../shared/book';
 import { BookStoreService } from '../shared/book-store.service';
@@ -20,4 +20,7 @@ export class BookDetailsComponent {
     filter(isbn => isbn !== null),
     switchMap(isbn => this.#bs.getSingle(isbn))
   ));
+
+  // LinkedSignal: Computed + WritableSignal
+  // readonly bookX = linkedSignal(this.book);
 }
