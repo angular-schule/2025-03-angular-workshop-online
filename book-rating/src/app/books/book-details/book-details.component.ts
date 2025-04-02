@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Book } from '../shared/book';
 import { BookStoreService } from '../shared/book-store.service';
 import { filter, map, switchMap } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-book-details',
@@ -14,23 +15,9 @@ export class BookDetailsComponent {
   #route = inject(ActivatedRoute);
   #bs = inject(BookStoreService);
 
-  readonly book = signal<Book | undefined>(undefined);
-
-  constructor() {
-    // PULL
-    // const isbn = this.#route.snapshot.paramMap.get('isbn'); // path: 'books/:isbn'
-    // console.log(isbn);
-
-    // PUSH
-    // TODO: Verschachtelte Subscriptions vermeiden
-
-    this.#route.paramMap.pipe(
-      map(params => params.get('isbn')),
-      filter(isbn => isbn !== null),
-      switchMap(isbn => this.#bs.getSingle(isbn))
-    ).subscribe(book => {
-      this.book.set(book);
-    });
-
-  }
+  readonly book = toSignal(this.#route.paramMap.pipe(
+    map(params => params.get('isbn')),
+    filter(isbn => isbn !== null),
+    switchMap(isbn => this.#bs.getSingle(isbn))
+  ));
 }
